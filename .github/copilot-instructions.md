@@ -1,26 +1,26 @@
 # Discord Bot Agent - Development Instructions
 
-This is a Discord bot with an agent system that reads and replies to messages.
+A Python Discord bot with an agent system that reads and replies to messages.
 
 ## Project Structure
 
-- **src/server.ts**: Main bot server that listens to Discord events
-- **src/agent.ts**: Bot agent that processes messages and generates replies
-- **package.json**: Node.js dependencies (discord.js, dotenv, TypeScript)
+- **discord_only.py**: Main bot with integrated agent that handles all message processing and replies
+- **requirements.txt**: Python dependencies (discord.py, python-dotenv, aiohttp)
+- **.env**: Environment file with Discord bot token
 
 ## Setup Instructions
 
-1. Install dependencies: `npm install`
-2. Create `.env` file from `.env.example` and add your Discord bot token
-3. Run development mode: `npm run dev`
-4. Build for production: `npm run build && npm start`
+1. Install dependencies: `pip install -r requirements.txt`
+2. Add your Discord bot token to `.env` file
+3. Run bot: `python3 discord_only.py`
 
 ## Key Components
 
-- **BotAgent**: Processes messages and generates contextual replies
-- **Server**: Discord.js client that handles bot lifecycle and message events
+- **Bot Events**: `on_ready()` - Bot initialization, `on_message()` - Message handling
+- **Message Processing**: `process_message()` - Analyzes content and generates replies
+- **Agent Logic**: Responds to greetings, questions, help commands, and more
 - **Environment Config**: Uses `.env` for secure token management
 
 ## Customization
 
-Edit `src/agent.ts` to add more reply patterns and conversational logic in the `generateReply()` method.
+Edit `discord_only.py` in the `process_message()` function to add more reply patterns and conversational logic based on message content.

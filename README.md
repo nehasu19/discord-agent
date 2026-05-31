@@ -1,24 +1,23 @@
 # Discord Bot Agent
 
-A Discord bot with an agent system that reads messages and generates intelligent replies.
+A Python Discord bot that reads and replies to messages intelligently.
 
 ## Project Structure
 
 ```
 discord/
-├── src/
-│   ├── agent.ts       # Bot agent logic for processing and replying
-│   ├── server.ts      # Main server and bot client setup
-├── dist/              # Compiled JavaScript (generated after build)
-├── package.json       # Dependencies and scripts
-├── tsconfig.json      # TypeScript configuration
-├── .env.example       # Example environment variables
-└── README.md          # This file
+├── discord_only.py       # Main bot with integrated agent
+├── requirements.txt      # Python dependencies
+├── .env                  # Bot token (not in version control)
+├── .gitignore
+├── .github/              # GitHub configuration
+│   └── copilot-instructions.md
+└── README.md             # This file
 ```
 
 ## Features
 
-- **Agent-based Message Processing**: `BotAgent` reads incoming messages
+- **Message Processing**: Reads incoming messages and generates intelligent replies
 - **Smart Replies**: Contextual responses based on message content
 - **Error Handling**: Graceful error handling for failed operations
 - **Typing Indicator**: Shows bot is "typing" before responding
@@ -29,18 +28,13 @@ discord/
 ### 1. Install Dependencies
 
 ```bash
-npm install
+pip install -r requirements.txt
 ```
 
 ### 2. Configure Environment
 
-Copy `.env.example` to `.env` and add your bot token:
+Add your Discord bot token to `.env`:
 
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
 ```
 DISCORD_TOKEN=your_bot_token_here
 ```
@@ -50,37 +44,37 @@ DISCORD_TOKEN=your_bot_token_here
 2. Create a new application
 3. Go to "Bot" section and click "Add Bot"
 4. Copy the token and paste in `.env`
+5. Enable "Message Content Intent" in your bot settings
 
 ### 3. Run the Bot
 
-**Development mode** (with auto-reload):
 ```bash
-npm run dev
+python3 discord_only.py
 ```
 
-**Build for production**:
+Or run in the background:
 ```bash
-npm run build
-npm start
+python3 discord_only.py &
 ```
 
 ## How It Works
 
-### Agent System
+### Message Processing Flow
 
-The `BotAgent` class processes messages:
+1. **Bot starts**: Connects to Discord and loads intents
+2. **Receives message**: `on_message()` event triggered
+3. **Processes content**: `process_message()` analyzes the message
+4. **Generates reply**: Creates contextual response based on triggers
+5. **Sends reply**: Posts response in the same channel
 
-1. **Receives**: Discord message object
-2. **Processes**: Analyzes message content
-3. **Generates**: Creates contextual reply
-4. **Returns**: Reply string to server
+### Reply Patterns
 
-### Server Flow
-
-1. Bot starts and connects to Discord
-2. Listens for new messages
-3. Agent processes message
-4. Bot sends reply with mention notification disabled
+The bot responds to:
+- **Greetings** ("hello", "hi", "hey") → Friendly greeting
+- **Questions** (any message with "?") → Shows thinking
+- **Help requests** ("help") → Lists capabilities
+- **Thanks** ("thanks", "thank you") → Appreciation response
+- **Default** → Encourages conversation
 
 ## Example Interactions
 
@@ -97,25 +91,30 @@ Bot: "You're welcome username! Happy to help! 😊"
 
 ## Customization
 
-Edit `src/agent.ts` to add more reply patterns and logic:
+Edit `discord_only.py` in the `process_message()` function to add more reply patterns:
 
-```typescript
-private generateReply(content: string, message: Message): string {
-  // Add your custom logic here
-}
+```python
+async def process_message(message):
+    """Process incoming message and generate a reply"""
+    content = message.content.lower()
+    
+    # Add your custom logic here
+    if 'your_keyword' in content:
+        return "Your custom response"
 ```
 
 ## Troubleshooting
 
 - **Bot not responding**: Check token in `.env` is correct
-- **"intents" error**: Ensure message content intent is enabled in Developer Portal
+- **ModuleNotFoundError**: Run `pip install -r requirements.txt`
+- **"intents" error**: Ensure Message Content Intent is enabled in Developer Portal
 - **Connection issues**: Verify bot has permissions in your server
 
 ## Dependencies
 
-- **discord.js**: Discord API library
-- **dotenv**: Environment variable management
-- **TypeScript**: Type-safe JavaScript
+- **discord.py**: Discord API library (v2.7.1)
+- **python-dotenv**: Environment variable management
+- **aiohttp**: Async HTTP client (required by discord.py)
 
 ## License
 
