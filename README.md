@@ -87,6 +87,10 @@ Bot: "Great question username! Let me think about that... 🤔"
 
 User: "thanks"
 Bot: "You're welcome username! Happy to help! 😊"
+
+example
+<img width="1219" height="739" alt="image" src="https://github.com/user-attachments/assets/ed3c7f0d-d2de-4942-972b-76d28e86ecad" />
+
 ```
 
 ## Customization
